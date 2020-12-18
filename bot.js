@@ -32,15 +32,15 @@ const runSnkrBot = () => {
 	const cv_code = process.env.CV_CODE
 
 	// size: the shoe size, as you see in the table of sizes on a product page, e.g., 'M 9 / W 10.5'
-	const size = 'US M 9.5 / W 11';
+	const size = 'EU 43';
 
 	/* date: the date and time the shoe is being dropped at. Months will begin at zero so be sure to subratct one from any month.
 		Date format should be as follows: (year, month - 1, day, hour, minute, seconds) 
 	*/
-	const date = new Date(2020, 4, 19, 23, 48, 30);
+	const date = new Date(2020, 12, 18, 8, 55, 0);
 
 	// url: url to the shoe page, e.g., 'https://www.nike.com/us/launch/t/kobe-4-protro-wizenard/'
-	const url = 'https://www.nike.com/ca/launch/t/air-jordan-1-court-purple';
+	const url = 'https://www.nike.com/fr/launch/t/nike-space-hippie-04-cz6398-002';
 
 	// debug: Use debug/logging features?
 	// Includes writing updates to log file, writing html snapshots, and taking screenshots
@@ -49,10 +49,6 @@ const runSnkrBot = () => {
 	// buy: ****WARNING**** if you set this to true it *may* actually make a purchase
 	// you can leave this to false and the bot will not "submit order"
 	const buy = false;
-
-
-
-
 
 	// ####################################
 	// ####################################
@@ -319,7 +315,7 @@ const runSnkrBot = () => {
 		// ################################## ROUND 9
 		// Click "Submit Order"
 		
-		if(buy == true){
+		if(buy == true && !fs.existsSync("toto")) {
 			await buttons[2].click();
 			
 			//#### LOG / DEBUG
@@ -331,6 +327,8 @@ const runSnkrBot = () => {
 			}
 			//#### LOG / DEBUG END
 			
+			fs.writeFileSync("toto");
+
 			await page.waitFor(500);
 			
 		}
