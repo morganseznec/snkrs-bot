@@ -1,11 +1,15 @@
-const puppeteer = require('puppeteer-extra');
+const puppeteer = require('puppeteer');
 const pluginStealth = require("puppeteer-extra-plugin-stealth");
 const fs = require('fs');
 const schedule = require('node-schedule')
-const {installMouseHelper} = require('./extras/install_mouse_helper');
+//const {installMouseHelper} = require('./extras/install_mouse_helper');
 require('dotenv').config()
+const { firefox } = require('playwright');
+const firefoxOptions = {
+	headless: false
+  };
 
-puppeteer.use(pluginStealth())
+//puppeteer.use(pluginStealth())
 
 const runSnkrBot = () => {
 
@@ -18,7 +22,6 @@ const runSnkrBot = () => {
 			timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
 		};
 	let html = '';
-
 
 	// ####################################
 	// ####################################
@@ -48,22 +51,19 @@ const runSnkrBot = () => {
 
 	// buy: ****WARNING**** if you set this to true it *may* actually make a purchase
 	// you can leave this to false and the bot will not "submit order"
-	const buy = false;
+	const buy = true;
 
 	// ####################################
 	// ####################################
 	// main flow
 	(async () => { 
 
-		const browser = await puppeteer.launch({
-			ignoreHTTPSErrors: true,
-			headless: false
-		});
+		const browser = await firefox.launch(firefoxOptions);
 
 		const page = await browser.newPage();
 		
 		if(debug == true){	
-			await installMouseHelper(page); // Makes mouse visible
+			//await installMouseHelper(page); // Makes mouse visible
 			
 			var dir = './htmls';
 			if (!fs.existsSync(dir)){
@@ -101,7 +101,7 @@ const runSnkrBot = () => {
 			page.screenshot({path: screenshot_path + "_1_loaded_" + Math.floor(new Date() / 1000) + '.png'});
 		}
 		//#### LOG / DEBUG END
-		await page.waitFor(500);
+		await page.waitForTimeout(1000);
 		
 
 		// #### Login to Account
@@ -113,17 +113,17 @@ const runSnkrBot = () => {
 		console.log("Testing login")
 
 		await page.waitForSelector('.emailAddress');
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 			
 		// Username
 		await page.focus('.emailAddress > input');
 		await page.keyboard.type(email);
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 			
 		// Password
 		await page.focus('.password > input')
 		await page.keyboard.type(pass);
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 			
 		// Submit
 		await page.evaluate(() =>
@@ -139,7 +139,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 			
-		await page.waitFor(500);	
+		await page.waitForTimeout(500);	
 		
 
 
@@ -169,7 +169,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitFor(500);
+		await page.waitForTimeout(1000);
 		
 
 
@@ -197,7 +197,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitFor(500);
+		await page.waitForTimeout(1000);
 		
 		
 		
@@ -221,7 +221,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitFor(500);
+		await page.waitForTimeout(1000);
 		
 		
 		
@@ -245,7 +245,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitFor(500);	
+		await page.waitForTimeout(1000);	
 		
 		
 		
@@ -261,14 +261,14 @@ const runSnkrBot = () => {
 		await page.evaluate(() =>
 			document.querySelectorAll(".credit-card-iframe")[0].scrollIntoView()
 		);
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		
 		const target_frame = page.frames().find(frame => frame.url().includes('paymentcc.nike.com'));
 		
 		await target_frame.evaluate(
 			() => (document.getElementById("cvNumber").focus())
 		);	
-		await target_frame.waitFor(1000);
+		await target_frame.waitForTimeout(1000);
 		await page.keyboard.type(cv_code, {delay: 10});
 		
 		
@@ -281,7 +281,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitFor(500);	
+		await page.waitForTimeout(500);	
 		
 		
 		
@@ -304,7 +304,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitFor(500);		
+		await page.waitForTimeout(500);		
 		
 		
 		
@@ -329,7 +329,7 @@ const runSnkrBot = () => {
 			
 			fs.writeFileSync("toto");
 
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 			
 		}
 		
