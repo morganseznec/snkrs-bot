@@ -35,7 +35,7 @@ const runSnkrBot = () => {
 	const cv_code = process.env.CV_CODE
 
 	// size: the shoe size, as you see in the table of sizes on a product page, e.g., 'M 9 / W 10.5'
-	const size = 'EU 43';
+	const size = 'EU 44';
 
 	/* date: the date and time the shoe is being dropped at. Months will begin at zero so be sure to subratct one from any month.
 		Date format should be as follows: (year, month - 1, day, hour, minute, seconds) 
@@ -43,7 +43,7 @@ const runSnkrBot = () => {
 	const date = new Date(2020, 12, 18, 8, 55, 0);
 
 	// url: url to the shoe page, e.g., 'https://www.nike.com/us/launch/t/kobe-4-protro-wizenard/'
-	const url = 'https://www.nike.com/fr/launch/t/nike-space-hippie-04-cz6398-002';
+	const url = 'https://www.nike.com/fr/launch/t/womens-space-hippie-04-this-is-trash-cactus-flower';
 
 	// debug: Use debug/logging features?
 	// Includes writing updates to log file, writing html snapshots, and taking screenshots
@@ -118,12 +118,12 @@ const runSnkrBot = () => {
 		// Username
 		await page.focus('.emailAddress > input');
 		await page.keyboard.type(email);
-		await page.waitForTimeout(200);
+		await page.waitForTimeout(500);
 			
 		// Password
 		await page.focus('.password > input')
 		await page.keyboard.type(pass);
-		await page.waitForTimeout(200);
+		await page.waitForTimeout(1000);
 			
 		// Submit
 		await page.evaluate(() =>
@@ -139,7 +139,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 			
-		await page.waitForTimeout(500);	
+		await page.waitForTimeout(1000);	
 		
 
 
@@ -159,6 +159,8 @@ const runSnkrBot = () => {
 		await page.evaluate(() =>
 			document.querySelectorAll(".size-grid-dropdown")[0].scrollIntoView()
 		);
+
+                await page.waitForTimeout(2000);
 		
 		// #### LOG / DEBUG
 		if(debug == true){	
@@ -169,7 +171,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitForTimeout(1000);
+		await page.waitForTimeout(2000);
 		
 
 
@@ -197,7 +199,7 @@ const runSnkrBot = () => {
 		}
 		//#### LOG / DEBUG END
 		
-		await page.waitForTimeout(1000);
+		await page.waitForTimeout(2000);
 		
 		
 		
@@ -248,7 +250,17 @@ const runSnkrBot = () => {
 		await page.waitForTimeout(1000);	
 		
 		
-		
+		await page.evaluate(() =>
+			document.querySelectorAll('.jewel-cart-container')[0].click()
+		);
+
+                await page.waitForTimeout(5000);	
+
+                await page.evaluate(() =>
+			document.querySelectorAll('button[data-automation="member-checkout-button"]')[0].click()
+		);
+
+                 await page.waitForTimeout(3000);	
 		
 		// ##################################################
 		// ##################################################
